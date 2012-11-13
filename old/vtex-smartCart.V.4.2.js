@@ -1,8 +1,8 @@
 /**
 * Vtex Smart Cart
 * @author Carlos Vinicius
-* @version 4.3
-* @date 2012-13-11
+* @version 4.2
+* @date 2012-10-02
 */
 
 /* Popup2 V 1.23 */
@@ -73,7 +73,6 @@ jQuery.fn.smartCart=function(opts)
 		installmentPricePopupHtml:'<div class="installmentPrice">ou em até <span>#installmentQtt</span>X de <span>R$ #installmentValue</span> sem juros</div>', // Html do "preço parcelado" a ser exibido dentro do popup de seleção do SKU
 		fullPricePopupHtml:'<div class="fullPrice">à vista</div>', // Html do "preço a vista" a ser exibido dentro do popup de seleção do SKU
 		currency:"R$",
-		cartHideTime:5000, // Tempo que o carrinho permanecerá vísivel ao passar o maouse sobre ou quando um novo produto for adicionado
 		notAjaxStop:false, // Define se será realizada uma busca por novos botões em todo ebento AjaxStop
 		callback:function(){}, // Callback após execução do plugin, desconsiderando as chamadas assíncronas
 		ajaxCallback:function(){}, // Callback após o produto ser adicionado ao carrinho
@@ -87,12 +86,12 @@ jQuery.fn.smartCart=function(opts)
 			elem.slideDown(callback);
 		},
 		// Animação ao esconder o carrinho
-		cartHide:function(elem, hideFunction, time)
+		cartHide:function(elem, hideFunction)
 		{
 			clearTimeout(vtexscCartHideTimeOut);
 			vtexscCartHideTimeOut=setTimeout(function(){
 				hideFunction(elem);
-			},time);
+			},5000);
 		},
 		// Ação p/ remover a classe do último item adicionado ao carrinho
 		resetNewItem:function(elem)
@@ -1012,7 +1011,7 @@ jQuery.fn.smartCart=function(opts)
 		displayCart:function()
 		{
 			options.cartShow(cartE, fns.scrollNewItem);
-			options.cartHide(cartE,fns.hideCart,options.cartHideTime);
+			options.cartHide(cartE,fns.hideCart);
 		},
 		removeSku:function(itemElem,skuRmId)
 		{
@@ -1102,7 +1101,7 @@ jQuery.fn.smartCart=function(opts)
 				},
 				mouseleave:function()
 				{
-					options.cartHide(cartE,fns.hideCart,options.cartHideTime);
+					options.cartHide(cartE,fns.hideCart);
 				}
 			};
 			
