@@ -38,6 +38,7 @@ Script que exibe a barra flutuante.
 Ele pode ser executado em outo local, esta aqui apenas como sugestão.
 -->
 <script type="text/javascript">
+	// <![CDATA[
 	$(function(){
 		// Barra flutuante conforme scroll
 		var floatingBar=$(".floatingTopBar");
@@ -57,6 +58,7 @@ Ele pode ser executado em outo local, esta aqui apenas como sugestão.
 			}
 		}); 
 	});
+	// ]]>
 </script>
 ```
 
