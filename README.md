@@ -84,9 +84,12 @@ Adicione o HTML da caixa em que os produtos do carrinho serão exibidos (recomen
 </div>
 ```
 
-Execute o plugin, como seletor use o botão de compra assíncrona:
+Execute o plugin. Como seletor use o botão de compra assíncrona:
 ```javascript
+// PÁGINAS DE VITRINE
 $(".btn-add-buy-button-asynchronous").smartCart();
+// Adicione um overlay para ser exibido quando o usuário clicar no botão
+$(".btn-add-buy-button-asynchronous").after('<div class="vtexsc-buttonOverlay"></div>');
 ```
 
 
