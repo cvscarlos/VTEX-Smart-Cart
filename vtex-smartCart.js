@@ -2,7 +2,7 @@
 * Vtex Smart Cart
 * @author Carlos Vinicius
 * @version 4.3
-* @date 2012-13-11
+* @date 2012-11-13
 */
 
 /* Popup2 V 1.23 */
