@@ -6,19 +6,19 @@
 Veja este componente na [VTEX Store](http://conversionstore.com.br/index.php/parceiros/extensoes/adicionar-ao-carrinho-avancado)
 
 ##Instalação
-Faça o upload para o "Gerenciador do portal" no "Vtex Admin" dos seguintes arquivos:
+1. Faça o upload para o "Gerenciador do portal" no "Vtex Admin" dos seguintes arquivos:
 * img/vtexsc-bgbody.jpg
 * img/ajax-loader.gif
 * vtex-smartCart.min.js
 * vtex-smartCart.css
 
-Faça a chamada do arquivo javascript e CSS na página:
+2. Faça a chamada do arquivo javascript e CSS na página:
 ```html
 <link rel="stylesheet" type="text/css" href="/arquivos/vtex-smartCart.css" />
 <script type="text/javascript" src="/arquivos/vtex-smartCart.min.js"></script>
 ```
 
-Adicione o HTML da barra flutuante (recomendação: adione no subtemplate de header):
+3. Adicione o HTML da barra flutuante (recomendação: adione no subtemplate de header):
 ```html
 <!-- sugestão de código. Os controles são opcionais, apenas é obrigatório ter a ".floatingTopBar" -->
 <div class="floatingTopBar header" style="display:none;">
@@ -62,11 +62,11 @@ Ele pode ser executado em outo local, esta aqui apenas como sugestão.
 </script>
 ```
 
-Adicione o botão de compra assíncrona ao template de vitrine: `$product.BottomBuyAsynchronous`
+4. Adicione o botão de compra assíncrona ao template de vitrine: `$product.BottomBuyAsynchronous`
 
-Adicione a classe `vtexsc-showCart` ao elemento que esta em volta do carrinho atual.
+5. Adicione a classe `vtexsc-showCart` ao elemento que esta em volta do carrinho atual.
 
-Adicione o HTML da caixa em que os produtos do carrinho serão exibidos (recomendação: adione no subtemplate de header):
+6. Adicione o HTML da caixa em que os produtos do carrinho serão exibidos (recomendação: adione no subtemplate de header):
 ```html
 <div class="vtexsc-cart">
 	<div class="vtexsc-bt"></div>
@@ -84,7 +84,7 @@ Adicione o HTML da caixa em que os produtos do carrinho serão exibidos (recomen
 </div>
 ```
 
-Execute o plugin. Como seletor use o botão de compra assíncrona:
+7. Execute o plugin. Como seletor use o botão de compra assíncrona:
 ```javascript
 // PÁGINAS DE VITRINE
 $(".btn-add-buy-button-asynchronous").smartCart();
