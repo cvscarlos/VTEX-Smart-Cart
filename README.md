@@ -7,10 +7,12 @@ Veja este componente na [VTEX Store](http://conversionstore.com.br/index.php/par
 
 ##Instalação
 1. Faça o upload para o "Gerenciador do portal" no "Vtex Admin" dos seguintes arquivos:
-* img/vtexsc-bgbody.jpg
-* img/ajax-loader.gif
-* vtex-smartCart.min.js
-* vtex-smartCart.css
+```
+img/vtexsc-bgbody.jpg
+img/ajax-loader.gif
+vtex-smartCart.min.js
+vtex-smartCart.css
+```
 
 2. Faça a chamada do arquivo javascript e CSS na página:
 ```html
