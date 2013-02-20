@@ -1,7 +1,8 @@
 /**
 * Vtex Smart Cart
-* @author Carlos Vinicius [ QUATRO DIGITAL ]
-* @version 4.4
+* @author Carlos Vinicius
+* @version 4.3
+* @date 2012-11-13
 */
 
 /* Popup2 V 1.23 */
@@ -36,13 +37,12 @@ if(typeof jQuery.fn.vtexPopUp2 != "function")
 var vtexscCartHideTimeOut=0;
 jQuery.fn.smartCart=function(opts)
 {
-	var log,defaults,options,$this,$empty,cartE,checkErrors,onlyCart,skuCache,extTitle,errorE, successE, showCartBtnE, currentQtt, scrollDownE, scrollTopE, totalCartWrap, cartTextClass, cartOverlayClass, cartText, cartOverlay, buyButtonE, totalCartE, tmp;
-	
-	// Função de LOG
-	extTitle="Smart Cart";
-	log=function(b,a){"object"===typeof console&&("object"===typeof a&&"alerta"===a.toLowerCase()?console.warn("["+extTitle+"] "+b):"object"===typeof a&&"info"===a.toLowerCase()?console.info("["+extTitle+"] "+b):console.error("["+extTitle+"] "+b))};
-	
-	defaults=
+	var log=function(msg,type){
+		if(typeof console=="object")
+			console.log("[Smart Cart - "+(type||"Erro")+"] "+msg);
+	};
+
+    var defaults=
 	{
 		method:1,
 		htmlFormat:2, // 1 = UL, 2 = Tabela (Modo de lista não esta completo)
@@ -64,7 +64,7 @@ jQuery.fn.smartCart=function(opts)
 		textMinusOne:"", // rótulo de reduzir 1
 		firstOptionMsg:"Selecione um(a) ", // deixe uma string vazio para não alterar o padrão do sistema. Esta opção é p/ SKU em selectbox. Esta frase somente será aplicada se o 1o "option" estiver vazio
 		ajaxErroMsg:"Houve um erro ao tentar adicionar/alterar seu produto no carrinho.",
-		changeQttError:"A quantidade selecionada excede nossa disponibilidade de estoque atual.",
+		changeQttError:"Provavelmente esta alteração não obteve êxito!",
 		skuNotSelected:"Selecione o(a) #groupName",
 		skuNotLocated:"Não foi possível obter as informações das variações deste produto.\nVocê será redirecionado para a página de detalhes deste produto.",
 		skuUnavailable:"Esta variação de produto não esta disponpível no momento.",
@@ -75,9 +75,6 @@ jQuery.fn.smartCart=function(opts)
 		currency:"R$",
 		cartHideTime:5000, // Tempo que o carrinho permanecerá vísivel ao passar o maouse sobre ou quando um novo produto for adicionado
 		notAjaxStop:false, // Define se será realizada uma busca por novos botões em todo ebento AjaxStop
-		updateCart:false, // Se passado como true a única função que ele irá executar é atualizar o carrinho
-		noCart:false, // Aplica a função do botão comprar mas não exibe o carrinho
-		noCartCallback:function(sku){}, // Callback para quando o produto é adicionado ao carrinho e não houve erro na requisição
 		callback:function(){}, // Callback após execução do plugin, desconsiderando as chamadas assíncronas
 		ajaxCallback:function(){}, // Callback após o produto ser adicionado ao carrinho
 		succesShow:function(elem)
@@ -135,14 +132,14 @@ jQuery.fn.smartCart=function(opts)
 			return wrap;
 		}
 	};
-	
-    options=jQuery.extend({},defaults, opts);
-	$this=jQuery(this);
-	$empty=jQuery("");
-	cartE=jQuery(options.cartElem);
-	checkErrors=true;
-	onlyCart=false;
-	skuCache={};
+    var options=jQuery.extend(defaults, opts),
+		$this=jQuery(this),
+		$empty=jQuery(""),
+		_console="object"===typeof(console),
+		cartE=jQuery(options.cartElem),
+		checkErrors=true,
+		onlyCart=false,
+		skuCache={};
 	
 	// Exibindo somente o carrinho
 	if($this.length<1 && cartE.length>0)
@@ -153,24 +150,26 @@ jQuery.fn.smartCart=function(opts)
 	
 	// Reportando erros
 	if($this.length<1 && checkErrors) return $this;
-	if(!options.noCart && (cartE.length<1 && checkErrors)){log("Elemento do carrinho não encontrado \n ("+cartE.selector+")"); return false;}
+	if(cartE.length<1 && checkErrors){log("Elemento do carrinho não encontrado \n ("+cartE.selector+")"); return false;}
 
 	var listE=cartE.find(options.listElem);
 	// Reportando erros
-	if(!options.noCart && (listE.length<1 && checkErrors)){log("Lista de produtos não encontrada \n ("+listE.selector+")"); return false;}
+	if(listE.length<1 && checkErrors){log("Lista de produtos não encontrada \n ("+listE.selector+")"); return false;}
 
-	errorE=jQuery(options.errorElem)||$empty;
-	successE=jQuery(options.successElem)||$empty;
-	showCartBtnE=jQuery(options.showCartBtn)||$empty;
-	currentQtt={};
-	scrollDownE=cartE.find(options.scrollDown)||$empty;
-	scrollTopE=cartE.find(options.scrollTop)||$empty;
-	totalCartWrap=jQuery(options.totalCart)||$empty;
-	cartTextClass="vtexsc-text";
-	cartOverlayClass="vtexsc-overlay";
-	cartText=jQuery("<span class='"+cartTextClass+"'></span>");
-	cartOverlay=jQuery("<div class='"+cartOverlayClass+"'></div>");
-	buyButtonE=$empty;
+	var errorE=jQuery(options.errorElem)||$empty,
+		successE=jQuery(options.successElem)||$empty,
+		showCartBtnE=jQuery(options.showCartBtn)||$empty,
+		currentQtt={},
+		scrollDownE=cartE.find(options.scrollDown)||$empty,
+		scrollTopE=cartE.find(options.scrollTop)||$empty,
+		totalCartWrap=jQuery(options.totalCart)||$empty,
+		cartTextClass="vtexsc-text",
+		cartOverlayClass="vtexsc-overlay",
+		cartText=jQuery("<span class='"+cartTextClass+"'></span>"),
+		cartOverlay=jQuery("<div class='"+cartOverlayClass+"'></div>"),
+		buyButtonE=$empty,
+		totalCartE,
+		tmp;
 	
 	if(!totalCartWrap.children("."+cartOverlayClass).length)
 		totalCartWrap.append(cartOverlay);
@@ -182,7 +181,7 @@ jQuery.fn.smartCart=function(opts)
 	{
 		totalCartWrap.append(cartText);
 		totalCartE=cartText;
-	}
+	}	
 	
 	var fns=
 	{
@@ -192,7 +191,7 @@ jQuery.fn.smartCart=function(opts)
 				var btn=jQuery(this);
 				if(!btn.hasClass("actionActivated") && fns.buyAsynchronous(btn))
 					btn.addClass("actionActivated").bind("click",function(){
-						if((typeof selecionarSKU === "string" && (btn.attr("href")||"").indexOf(selecionarSKU)>-1) /* || ((btn.attr("href")||"").indexOf("elecione")>-1) */)
+						if((btn.attr("href")||"").indexOf("elecione")>-1)
 							return true;
 							
 						var sku=fns.getSku(btn);
@@ -798,14 +797,8 @@ jQuery.fn.smartCart=function(opts)
 
 			jQuery.ajax({
 				url:"/Site/Carrinho.aspx?idSku="+sku+"&quantidade="+qtt,
-				success:function(data){
-					fns.skuToCartAjaxSuccess(btnOverlayE,sku,data);
-					fns.updateCart();
-					typeof options.noCartCallback === "function"?options.noCartCallback(sku):log("O paramentro 'noCartCallback' deve ser obrigatóriamente uma função");
-				},
-				error:function(){
-					fns.skuToCartAjaxError(btnOverlayE);
-				}
+				success:function(data){fns.skuToCartAjaxSuccess(btnOverlayE,sku,data); fns.updateCart();},
+				error:function(){fns.skuToCartAjaxError(btnOverlayE);}
 			});
 		},
 		loadCart:function(forceLoad)
@@ -989,8 +982,6 @@ jQuery.fn.smartCart=function(opts)
 		},
 		updateCart:function()
 		{
-			if(options.noCart) return;
-		
 			cartOverlay.show();
 			jQuery.ajax({
 				url:"/no-cache/QuantidadeItensCarrinho.aspx",
@@ -1014,7 +1005,7 @@ jQuery.fn.smartCart=function(opts)
 			if(cart.length>0)
 				jQuery(".cartInfoWrapper").html(cart.html());
 			else
-				log("O carrinho não foi atualizado pois “.cartInfoWrapper” não foi encontrado no retorno da requisição.");
+				log("[Erro] O carrinho não foi atualizado pois “.cartInfoWrapper” não foi encontrado no retorno da requisição.");
 			
 			cartOverlay.hide();
 		},
@@ -1125,9 +1116,7 @@ jQuery.fn.smartCart=function(opts)
 		}
 	};
 
-	if(options.updateCart)
-		fns.updateCart();
-	else if(onlyCart)
+	if(onlyCart)
 		fns.onlyCart();
 	else
 	{

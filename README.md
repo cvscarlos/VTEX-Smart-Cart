@@ -92,6 +92,9 @@ Ele pode ser executado em outo local, esta aqui apenas como sugestão.
 $(".btn-add-buy-button-asynchronous").smartCart();
 // Adicione um overlay para ser exibido quando o usuário clicar no botão
 $(".btn-add-buy-button-asynchronous").after('<div class="vtexsc-buttonOverlay"></div>');
+
+// PÁGINA DE PRODUTO
+$(".buy-button").smartCart();
 ```
 
 
