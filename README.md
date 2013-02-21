@@ -88,19 +88,18 @@ Ele pode ser executado em outo local, esta aqui apenas como sugestão.
 
 7. Execute o plugin. Como seletor use o botão de compra assíncrona:
 ```javascript
-// PÁGINAS DE VITRINE
+// ### PÁGINAS DE VITRINE ###
 $(".btn-add-buy-button-asynchronous").smartCart();
 // Adicione um overlay para ser exibido quando o usuário clicar no botão
 $(".btn-add-buy-button-asynchronous").after('<div class="vtexsc-buttonOverlay"></div>');
-
-// PÁGINA DE PRODUTO
+// ### PÁGINA DE PRODUTO ###
 $(".buy-button").smartCart();
 ```
 
 
 ###Avançado
 
-Configurações completas do plugin (lista atualizada em 13/11/2012):
+Configurações completas do plugin (lista atualizada em 21/02/2013):
 ```javascript
 $(".btn-add-buy-button-asynchronous").smartCart({
 	method:1,
@@ -123,7 +122,7 @@ $(".btn-add-buy-button-asynchronous").smartCart({
 	textMinusOne:"", // rótulo de reduzir 1
 	firstOptionMsg:"Selecione um(a) ", // deixe uma string vazio para não alterar o padrão do sistema. Esta opção é p/ SKU em selectbox. Esta frase somente será aplicada se o 1o "option" estiver vazio
 	ajaxErroMsg:"Houve um erro ao tentar adicionar/alterar seu produto no carrinho.",
-	changeQttError:"Provavelmente esta alteração não obteve êxito!",
+	changeQttError:"A quantidade selecionada excede nossa disponibilidade de estoque atual.",
 	skuNotSelected:"Selecione o(a) #groupName",
 	skuNotLocated:"Não foi possível obter as informações das variações deste produto.\nVocê será redirecionado para a página de detalhes deste produto.",
 	skuUnavailable:"Esta variação de produto não esta disponpível no momento.",
@@ -134,6 +133,9 @@ $(".btn-add-buy-button-asynchronous").smartCart({
 	currency:"R$",
 	cartHideTime:5000, // Tempo que o carrinho permanecerá vísivel ao passar o maouse sobre ou quando um novo produto for adicionado
 	notAjaxStop:false, // Define se será realizada uma busca por novos botões em todo ebento AjaxStop
+	updateCart:false, // Se passado como true a única função que ele irá executar é atualizar o carrinho
+	noCart:false, // Aplica a função do botão comprar mas não exibe o carrinho
+	noCartCallback:function(sku){}, // Callback para quando o produto é adicionado ao carrinho e não houve erro na requisição
 	callback:function(){}, // Callback após execução do plugin, desconsiderando as chamadas assíncronas
 	ajaxCallback:function(){}, // Callback após o produto ser adicionado ao carrinho
 	succesShow:function(elem)
@@ -146,12 +148,12 @@ $(".btn-add-buy-button-asynchronous").smartCart({
 		elem.slideDown(callback);
 	},
 	// Animação ao esconder o carrinho
-	cartHide:function(elem, hideFunction)
+	cartHide:function(elem, hideFunction, time)
 	{
 		clearTimeout(vtexscCartHideTimeOut);
 		vtexscCartHideTimeOut=setTimeout(function(){
 			hideFunction(elem);
-		},5000);
+		},time);
 	},
 	// Ação p/ remover a classe do último item adicionado ao carrinho
 	resetNewItem:function(elem)
