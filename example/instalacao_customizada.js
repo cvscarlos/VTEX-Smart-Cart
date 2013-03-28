@@ -1,3 +1,5 @@
+/** @license MIT */
+
 // Inicialização
 $(function(){
 	/* Carrinho Inteligente [INI] */
