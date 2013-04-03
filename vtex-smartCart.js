@@ -1,12 +1,12 @@
 /**
-* Vtex Smart Cart
+* VTEX Smart Cart
 * @author Carlos Vinicius [ QUATRO DIGITAL ]
 * @version 4.4
+* @license MIT <http://pt.wikipedia.org/wiki/Licen%C3%A7a_MIT>
 */
 
 /* Popup2 V 1.23 */
-if(typeof jQuery.fn.vtexPopUp2 != "function")
-{
+if(typeof jQuery.fn.vtexPopUp2 !== "function"){
 	jQuery.fn.vtexPopUp2=function(l){var j=jQuery(this);if(1>j.length)return j;var i=jQuery("body"),d=i.find(".boxPopUp2"),k="object"==typeof console;1>d.length&&(d=jQuery('<div class="boxPopUp2"><div class="boxPopUp2-wrap"><span class="boxPopUp2-close"></span><div class="boxPopUp2-content"></div></div></div>'),i.prepend(d),d.after('<div class="boxPopUp2-overlay"></div>'));var c=jQuery.extend({popupType:null,closeContent:null,popupClass:"",quickViewClass:".quickViewLink",initCallback:function(){},showCallback:function(){},
 	closeCallback:function(){}},l),l=d.find(".boxPopUp2-close"),f=d.find(".boxPopUp2-content"),m=i.find(".boxPopUp2-close, .boxPopUp2-overlay"),n=i.find(".boxPopUp2-overlay"),h=jQuery(document);null!=c.closeContent&&l.html(c.closeContent);var b={positioning:function(){var a=h.scrollTop(),b=jQuery(window).height(),c=d.outerHeight(!0);d.css("top",a+(c>=b?20:(b-c)/2)+"px")},show:function(a){a=a||{};n.fadeTo("fast",0.5,function(){d.show().addClass("popupOpened");"boolean"===typeof a.loading&&!0===a.loading?
 	b.showLoading():b.hideLoading();"function"===typeof a.callback&&a.callback();c.showCallback(d)})},hideLoading:function(){f.filter(":visible").css("background-image","none")},showLoading:function(){f.filter(":visible").css("background-image",'url("/arquivos/ajax-loader.gif")')},close:function(a){var a=a||{},b=function(){n.fadeOut("fast");d.fadeOut("fast",function(){f.empty()});f.attr("class","boxPopUp2-content");d.attr("class","boxPopUp2")};"boolean"==typeof a.closeNow&&!0==a.closeNow&&b();1>m.filter(".boxPopUp2-clickActive").length&&
@@ -24,6 +24,28 @@ if(typeof jQuery.fn.vtexPopUp2 != "function")
 	e=!1;if(1>a.length)return!1;a.bind("click",function(){var a=jQuery(this).attr("href")||"";if(""===a)return k&&console.log("[Erro] N\u00e3o foi poss\u00edvel obter os dados para abrir o popup de resenha."),!1;a=a.split(")").shift().split("(").pop().split(",");if(3!=a.length)return k&&console.log("[Erro] O array com os dados do cliente retornou um valor inesperado."),!1;if(e)return!1;e=!0;jQuery.ajax({url:"/publishuserreviewcomment",type:"POST",data:{productId:a[1],clientId:a[0],categoryId:a[2]},success:function(a){var g=
 	jQuery(a);f.addClass(c.popupClass+" userReviewPopup").html(g);d.addClass(c.popupClass+" userReviewPopupMain");b.show({callback:function(){g.find("#txtTituloResenha:hidden").val("titulo_auto");var a=f.find("a#rtAvaliacao_A0"),b=function(){a.attr("title",a.find(".filledRatingStar:last").index()+1||0)};a.find("span").bind("mouseenter",b);a.bind("mouseleave",b)}});b.positioning();b.close();e=!1},error:function(){e=!1}});return!1}).addClass("popUpPublishReviewActivated");0==jQuery.fn.vtexPopUp2.data.userReviewCount&&
 	h.ajaxStop(function(){f.hasClass("userReviewPopup")&&0==f.find(".formUserComment").children().length&&b.closeNow()});jQuery.fn.vtexPopUp2.data.userReviewCount++}};b.exec();return j};jQuery.fn.vtexPopUp2.data={userReviewCount:0};
+}
+/**
+ * Quatro Digital - jQuery Ajax Queue
+ * @author Carlos Vinicius [ QUATRO DIGITAL ]
+ * @version 1.0
+ * @license MIT <http://pt.wikipedia.org/wiki/Licen%C3%A7a_MIT>
+*/
+(function(a){"function"!==typeof a.qdAjax&&(a.qdAjaxQueue={},a.qdAjax=function(f){var c,b;c=a.extend({},{success:function(){},error:function(){},complete:function(){},clearQueueDelay:0},f);b=escape(encodeURIComponent(c.url));a.qdAjaxQueue[b]=a.qdAjaxQueue[b]||{};a.qdAjaxQueue[b].opts=a.qdAjaxQueue[b].opts||[];a.qdAjaxQueue[b].opts.push({success:function(a,b,d){c.success.call(this,a,b,d)},error:function(a,b,d){c.error.call(this,a,b,d)},complete:function(a,b){c.complete.call(this,a,b)}});f=a.extend({},
+c,{success:function(c,g,d){for(var e in a.qdAjaxQueue[b].opts)"object"===typeof a.qdAjaxQueue[b].opts[e]&&(a.qdAjaxQueue[b].opts[e].success.call(this,c,g,d),a.qdAjaxQueue[b].opts[e].success=function(){})},error:function(c,g,d){for(var e in a.qdAjaxQueue[b].opts)"object"===typeof a.qdAjaxQueue[b].opts[e]&&(a.qdAjaxQueue[b].opts[e].error.call(this,c,g,d),a.qdAjaxQueue[b].opts[e].error=function(){})},complete:function(f,g){for(var d in a.qdAjaxQueue[b].opts)"object"===typeof a.qdAjaxQueue[b].opts[d]&&
+(a.qdAjaxQueue[b].opts[d].complete.call(this,f,g),a.qdAjaxQueue[b].opts[d].complete=function(){});setTimeout(function(){a.qdAjaxQueue[b].jqXHR=void 0;a.qdAjaxQueue[b].opts=void 0},c.clearQueueDelay)}});"undefined"===typeof a.qdAjaxQueue[b].jqXHR&&(a.qdAjaxQueue[b].jqXHR=a.ajax(f))})})(jQuery);
+/**
+* Vtex Simple Cart
+* @author Carlos Vinicius [ QUATRO DIGITAL ]
+* @version 3.2
+* @license MIT <http://pt.wikipedia.org/wiki/Licen%C3%A7a_MIT>
+*/
+if(typeof jQuery.fn.simpleCart !== "function"){
+"function"!==typeof String.prototype.trim&&(String.prototype.trim=function(){return this.replace(/^\s+|\s+$/g,"")});
+(function(a){a.fn.simpleCart=jQuery.fn.vtexCart=function(k){var c,g,f,e,j,h;g=function(a,b){"object"===typeof console&&("undefined"!==typeof b&&"alerta"===b.toLowerCase()?console.warn("[Simple Cart] "+a):"undefined"!==typeof b&&"info"===b.toLowerCase()?console.info("[Simple Cart] "+a):console.error("[Simple Cart] "+a))};c=jQuery(this);if(!c.length)return c;a.fn.simpleCart.elements=a.fn.simpleCart.elements.add(c);e=jQuery.extend({cartQtt:".vtex-cartQtt",cartTotal:".vtex-cartTotal",itemsText:".vtex-ItemsText",
+callback:function(){}},k);f=jQuery("");c.data("qd_simpleCartOpts",e);j=function(a,b){var d=parseInt(a,10);isNaN(d)?g("O valor obtido para calcular o plural/singular n\u00e3o \u00e9 um n\u00famero!"):1===d?b.hide().filter(".singular").show():b.hide().filter(".plural").show()};h=function(a,b){var d;d=a.find(".amount-items-em").html();1>a.filter(".cartInfoWrapper").length||(b.$this.show(),b.cartTotalE.html(a.find(".total-cart-em").html()),b.cartQttE.html(d),j(d,b.itemsTextE))};a.qdAjax({url:"/no-cache/QuantidadeItensCarrinho.aspx",
+success:function(j){c.each(function(){var b={},d;d=a(this);b.$this=d;b.cartQttE=d.find(e.cartQtt)||f;b.cartTotalE=d.find(e.cartTotal)||f;b.itemsTextE=d.find(e.itemsText)||f;h(a(j),b)})},error:function(){g("N\u00e3o foi poss\u00edvel fazer a requisi\u00e7\u00e3o p/ obter os dados do carrinho.");-1<document.location.host.indexOf("localhost")&&c.show()},clearQueueDelay:500});e.callback();return c};a.fn.simpleCart.elements=a("");var h;"undefined"!==typeof ajaxRequestbuyButtonAsynchronous&&(h=ajaxRequestbuyButtonAsynchronous,
+ajaxRequestbuyButtonAsynchronous=function(k,c,g,f,e){h.call(this,k,c,g,f,function(){"function"===typeof e&&e();a.fn.simpleCart.elements.each(function(){var c;c=a(this);c.simpleCart(c.data("qd_simpleCartOpts"))})})});a(function(){a(".qd-CartAuto").simpleCart()})})(jQuery);
 }
 
 /* Get Attributes */
@@ -58,6 +80,7 @@ jQuery.fn.smartCart=function(opts)
 		totalCart:".vtexsc-totalCart", // Elemento que exibe o valor total do carrinho
 		buyButton:".vtexsc-buyButton", // Botão comprar no popup de SKU
 		asynchronousClass:"btn-add-buy-button-asynchronous", // botão comprar na prateleira
+		simpleCartSelector:".qd-CartAuto", // botão comprar na prateleira
 		qttText:"", // rótulo de quantidade
 		textRemove:"", // rótulo de remover
 		textMoreOne:"", // rótulo de adicionar +1
@@ -811,7 +834,7 @@ jQuery.fn.smartCart=function(opts)
 		loadCart:function(forceLoad)
 		{
 			if((forceLoad||false) || !cartE.hasClass("preLoaded"))
-				jQuery.ajax({
+				jQuery.qdAjax({
 					url:"/Site/Carrinho.aspx",
 					success:function(data)
 					{
@@ -819,7 +842,8 @@ jQuery.fn.smartCart=function(opts)
 						cartE.addClass("preLoaded");
 						fns.scrollAction();
 					},
-					error:function(){fns.skuToCartAjaxError($empty);}
+					error:function(){fns.skuToCartAjaxError($empty);},
+					clearQueueDelay:500
 				});
 		},
 		skuToCartAjaxSuccess:function(btnOverlayE,sku,data,showCart)
@@ -991,11 +1015,19 @@ jQuery.fn.smartCart=function(opts)
 		{
 			if(options.noCart) return;
 		
+			var cart;
+		
+			// Verificando se tem o Simple Cart
+			cart=$(options.simpleCartSelector);
+			if(cart.length)
+				cart.simpleCart(cart.data("qd_simpleCartOpts"));
+		
 			cartOverlay.show();
-			jQuery.ajax({
+			jQuery.qdAjax({
 				url:"/no-cache/QuantidadeItensCarrinho.aspx",
 				success:fns.upCartAjaxSuccess,
-				error:fns.upCartAjaxError
+				error:fns.upCartAjaxError,
+				clearQueueDelay:500
 			});
 		},
 		upCartAjaxError:function()

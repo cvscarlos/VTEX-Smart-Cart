@@ -108,7 +108,7 @@ $(".buy-button").smartCart();
 
 ###Avançado
 
-Configurações completas do plugin (lista atualizada em 21/02/2013):
+Configurações completas do plugin (lista atualizada em 03/04/2013):
 ```javascript
 $(".btn-add-buy-button-asynchronous").smartCart({
 	method:1,
@@ -125,6 +125,7 @@ $(".btn-add-buy-button-asynchronous").smartCart({
 	totalCart:".vtexsc-totalCart", // Elemento que exibe o valor total do carrinho
 	buyButton:".vtexsc-buyButton", // Botão comprar no popup de SKU
 	asynchronousClass:"btn-add-buy-button-asynchronous", // botão comprar na prateleira
+	simpleCartSelector:".qd-CartAuto", // botão comprar na prateleira
 	qttText:"", // rótulo de quantidade
 	textRemove:"", // rótulo de remover
 	textMoreOne:"", // rótulo de adicionar +1
