@@ -98,6 +98,7 @@ jQuery.fn.smartCart=function(opts)
 		currency:"R$",
 		cartHideTime:5000, // Tempo que o carrinho permanecerá vísivel ao passar o maouse sobre ou quando um novo produto for adicionado
 		notAjaxStop:false, // Define se será realizada uma busca por novos botões em todo ebento AjaxStop
+		lastCallback:null,
 		updateCart:false, // Se passado como true a única função que ele irá executar é atualizar o carrinho
 		noCart:false, // Aplica a função do botão comprar mas não exibe o carrinho
 		noCartCallback:function(sku){}, // Callback para quando o produto é adicionado ao carrinho e não houve erro na requisição
@@ -360,6 +361,9 @@ jQuery.fn.smartCart=function(opts)
 			}
 			else
 				log("Elemento não previsto");
+
+			if(typeof options.lastCallback=="function")
+                        options.lastCallback();
 		},
 		skuConfigSelectbox:function(skusHtml, skuSpecifications, selectBox, prodImgElem,prodPriceElem)
 		{
